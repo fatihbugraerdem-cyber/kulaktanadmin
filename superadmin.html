@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Platform Yönetimi | Kulaktan</title>
+
+<meta name="theme-color" content="#04060c">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/kulaktan.css">
+<script>document.documentElement.className+=" js"</script>
+</head>
+<body class="app-body">
+<div id="loginView" class="auth">
+  <aside class="auth-aside">
+  <div class="arcs" aria-hidden="true"><svg viewBox="0 0 420 400" aria-hidden="true" focusable="false"><path pathLength="1" style="--i:0" stroke-width="13" d="M77.1 140.6A70 70 0 0 1 77.1 259.4"/><path pathLength="1" style="--i:1" stroke-width="11" d="M108.9 89.8A130 130 0 0 1 108.9 310.2"/><path pathLength="1" style="--i:2" stroke-width="9" d="M140.7 38.9A190 190 0 0 1 140.7 361.1"/><path pathLength="1" style="--i:3" stroke-width="7" d="M172.5 -12.0A250 250 0 0 1 172.5 412.0"/><path pathLength="1" style="--i:4" stroke-width="5" d="M204.3 -62.9A310 310 0 0 1 204.3 462.9"/></svg></div>
+  <a href="/" class="brand" aria-label="Kulaktan ana sayfa"><img src="/assets/logo-mark-white.png" alt="" width="21" height="34">kulaktan</a>
+  <div>
+    <h2>Platform Yönetimi Girişi</h2>
+    
+    <a class="back" href="/">Ana sayfaya dön</a>
+  </div>
+  <span class="tiny" style="position:relative;opacity:.7">Bu oturum şifreli bağlantı üzerinden açılır.</span>
+</aside>
+  <main class="auth-main" id="main">
+    <div class="auth-card">
+      <h1 data-i18n="login_title">Platform yönetimi girişi</h1>
+      <p class="mt-2" data-i18n="login_desc">Tüm müşteri organizasyonlarını yönetmek için süper-admin kimliğinizle giriş yapın.</p>
+      <form id="loginForm" class="form" novalidate>
+        <div class="field"><label for="loginUser" data-i18n="username">Kullanıcı Adı</label><input type="text" id="loginUser" placeholder="Kullanıcı Adınız" required autocomplete="username" autocapitalize="off" spellcheck="false"></div>
+        <div class="field"><label for="loginPass" data-i18n="password">Şifre</label><input type="password" id="loginPass" placeholder="Şifreniz" required autocomplete="current-password"></div>
+        <button type="submit" class="btn btn-primary btn-block" id="loginBtn" data-i18n="login_btn">Giriş yap</button>
+        <p id="loginMsg" class="form-msg err hidden" role="alert"></p>
+      </form>
+      <p class="mt-3 small"><button type="button" class="link link-btn" id="forgotToggle" data-i18n="forgot">Şifremi unuttum</button></p>
+      <form id="forgotPanel" class="panel-soft mt-2 hidden" novalidate>
+        <div class="field"><label for="forgotUser">Kullanıcı Adınız</label><input type="text" id="forgotUser" autocomplete="username" autocapitalize="off" spellcheck="false"></div>
+        <button type="submit" class="btn btn-ghost btn-block" data-i18n="send_reset">Sıfırlama Bağlantısı Gönder</button>
+        <p id="forgotMsg" class="form-msg hidden" role="status"></p>
+      </form>
+    </div>
+  </main>
+</div>
+<div id="appView" class="hidden">
+<header class="site-header app-bar" id="appBar">
+  <div class="wrap">
+    <a href="/" class="brand" aria-label="Kulaktan ana sayfa"><img src="/assets/logo-mark-white.png" alt="" width="21" height="34">kulaktan<span class="brand-tag">Platform</span></a>
+    <div class="who hidden" id="headerAuthStatus">
+      
+      <span class="avatar" id="avatar" aria-hidden="true"></span>
+      <span class="who-name" id="sessionName"></span>
+      <button type="button" class="btn btn-ghost btn-sm" id="logoutBtn">Çıkış</button>
+    </div>
+  </div>
+</header>
+<main class="app-main" id="app-main">
+<div class="wrap">
+
+<div class="app-title">
+  <span class="eyebrow">PLATFORM YÖNETİMİ</span><h1 class="mt-2">Müşteri Organizasyonları</h1>
+</div>
+
+<section class="panel panel-flat mt-4" aria-labelledby="orgsTitle">
+  <div class="panel-head"><h2 id="orgsTitle">Kayıtlı Şirketler</h2></div>
+  <div class="table-wrap">
+    <table class="table-stack">
+      <thead><tr><th>Şirket</th><th>Slug / Form Adresi</th><th>Marka Rengi</th><th>Dosya</th><th>Personel</th><th>Oluşturulma</th></tr></thead>
+      <tbody id="orgsTableBody"></tbody>
+    </table>
+  </div>
+</section>
+
+<div class="split split-even mt-4" style="gap:1.5rem">
+  <section class="panel panel-flat" aria-labelledby="newOrgTitle">
+    <div class="panel-head"><h2 id="newOrgTitle">Yeni Şirket Ekle</h2></div>
+    <form id="newOrgForm" novalidate>
+      <div class="field"><label for="newOrgName">Şirket Adı</label><input type="text" id="newOrgName" placeholder="Acme Sanayi A.Ş." required></div>
+      <div class="field"><label for="newOrgSlug">Slug (URL için)</label><input type="text" id="newOrgSlug" placeholder="acme" pattern="[a-z0-9-]+" required autocapitalize="off" spellcheck="false"><p class="hint">İhbar formu: <span class="mono">/o/&lt;slug&gt;</span></p></div>
+      <div class="field"><label for="newOrgAdminName">İlk Admin Adı</label><input type="text" id="newOrgAdminName" placeholder="Acme Uyum Yöneticisi" required></div>
+      <div class="field"><label for="newOrgAdminEmail">İlk Admin E-postası</label><input type="email" id="newOrgAdminEmail" placeholder="admin@acme.com" required></div>
+      <button type="submit" class="btn btn-primary btn-block">Şirketi Oluştur</button>
+    </form>
+    <div id="createOrgResult" class="mt-3"></div>
+  </section>
+
+  <section class="panel panel-flat" aria-labelledby="newStaffTitle">
+    <div class="panel-head"><h2 id="newStaffTitle">Mevcut Şirkete Personel Ekle</h2></div>
+    <form id="newStaffForm" novalidate>
+      <div class="field"><label for="staffOrgSlug">Şirket</label><select id="staffOrgSlug" required></select></div>
+      <div class="field"><label for="staffRole">Rol</label>
+        <select id="staffRole" required><option value="admin">Admin</option><option value="expert">Uzman</option><option value="board">Yönetim Kurulu</option></select></div>
+      <div class="field"><label for="staffName">Ad Soyad</label><input type="text" id="staffName" required></div>
+      <div class="field"><label for="staffUsername">Kullanıcı Adı</label><input type="text" id="staffUsername" required autocapitalize="off" spellcheck="false"></div>
+      <div class="field"><label for="staffEmail">E-posta</label><input type="email" id="staffEmail" required></div>
+      <button type="submit" class="btn btn-primary btn-block">Personel Ekle</button>
+    </form>
+    <div id="addStaffResult" class="mt-3"></div>
+  </section>
+</div>
+
+<section class="panel panel-flat mt-4" aria-labelledby="brandTitle">
+  <div class="panel-head"><h2 id="brandTitle">Marka Rengi Güncelle</h2></div>
+  <p class="small" style="margin-bottom:1.4rem">Bu renk, şirketin ihbar formunda (<span class="mono">/o/&lt;slug&gt;</span>) vurgu rengi olarak kullanılır.</p>
+  <form id="brandForm" class="row" style="align-items:flex-end;gap:1.2rem" novalidate>
+    <div class="field grow" style="margin:0;max-width:340px"><label for="brandingOrgSlug">Şirket</label><select id="brandingOrgSlug" required></select></div>
+    <div class="field" style="margin:0"><label for="brandingColor">Renk</label><input type="color" id="brandingColor" value="#2a3b5f"></div>
+    <button type="submit" class="btn btn-primary">Güncelle</button>
+  </form>
+  <div id="brandingResult" class="mt-2"></div>
+</section>
+
+<section class="panel panel-flat mt-4" aria-labelledby="staffTitle">
+  <div class="panel-head"><h2 id="staffTitle">Personel Yönetimi</h2></div>
+  <p class="small" style="margin:-.6rem 0 1.4rem">Bir şirket seçin, personelini görüntüleyin, düzenleyin veya silin.</p>
+  <div class="field" style="max-width:360px"><label for="staffListOrgSlug">Şirket</label><select id="staffListOrgSlug"></select></div>
+  <div class="table-wrap">
+    <table class="table-stack">
+      <thead><tr><th>Ad Soyad</th><th>Kullanıcı Adı</th><th>Rol</th><th>E-posta</th><th>İşlem</th></tr></thead>
+      <tbody id="staffListBody"></tbody>
+    </table>
+  </div>
+</section>
+
+</div>
+</main>
+</div>
+<div id="editStaffModal" class="overlay overlay-center" role="dialog" aria-modal="true" aria-labelledby="editTitle" aria-hidden="true">
+  <form class="dialog" id="editStaffForm" novalidate>
+    <h2 id="editTitle" style="font-size:1.8rem;margin-bottom:1.4rem">Personeli Düzenle</h2>
+    <input type="hidden" id="editStaffId">
+    <div class="field"><label for="editStaffName">Ad Soyad</label><input type="text" id="editStaffName" required></div>
+    <div class="field"><label for="editStaffEmail">E-posta</label><input type="email" id="editStaffEmail" required></div>
+    <div class="field"><label for="editStaffRole">Rol</label>
+      <select id="editStaffRole" required><option value="admin">Admin</option><option value="expert">Uzman</option><option value="board">Yönetim Kurulu</option></select></div>
+    <p id="editStaffError" class="form-msg err hidden" role="alert"></p>
+    <div class="drawer-foot">
+      <button type="button" class="btn btn-ghost" id="editCancel">İptal</button>
+      <button type="submit" class="btn btn-primary">Kaydet</button>
+    </div>
+  </form>
+</div>
+<script src="/assets/kulaktan.js"></script>
+<script src="/assets/pages/superadmin.js"></script>
+</body>
+</html>

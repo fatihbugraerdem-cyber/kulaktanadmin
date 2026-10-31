@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yönetim Kurulu Girişi | Kulaktan</title>
+
+<meta name="theme-color" content="#04060c">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/kulaktan.css">
+<script>document.documentElement.className+=" js"</script>
+</head>
+<body class="app-body">
+<div id="loginView" class="auth">
+  <aside class="auth-aside">
+  <div class="arcs" aria-hidden="true"><svg viewBox="0 0 420 400" aria-hidden="true" focusable="false"><path pathLength="1" style="--i:0" stroke-width="13" d="M77.1 140.6A70 70 0 0 1 77.1 259.4"/><path pathLength="1" style="--i:1" stroke-width="11" d="M108.9 89.8A130 130 0 0 1 108.9 310.2"/><path pathLength="1" style="--i:2" stroke-width="9" d="M140.7 38.9A190 190 0 0 1 140.7 361.1"/><path pathLength="1" style="--i:3" stroke-width="7" d="M172.5 -12.0A250 250 0 0 1 172.5 412.0"/><path pathLength="1" style="--i:4" stroke-width="5" d="M204.3 -62.9A310 310 0 0 1 204.3 462.9"/></svg></div>
+  <a href="/" class="brand" aria-label="Kulaktan ana sayfa"><img src="/assets/logo-mark-white.png" alt="" width="21" height="34">kulaktan</a>
+  <div>
+    <h2>Yönetim Kurulu Yetkilendirmesi</h2>
+    
+    <a class="back" href="/">Ana sayfaya dön</a>
+  </div>
+  <span class="tiny" style="position:relative;opacity:.7">Bu oturum şifreli bağlantı üzerinden açılır.</span>
+</aside>
+  <main class="auth-main" id="main">
+    <div class="auth-card">
+      <h1 data-i18n="login_title">Yönetim kurulu girişi</h1>
+      <p class="mt-2" data-i18n="login_desc">Yönetim Kurulu &amp; Denetim Komuta Merkezine erişmek için kimliğinizi giriniz.</p>
+      <form id="loginForm" class="form" novalidate>
+        <div class="field"><label for="loginUser" data-i18n="username">Kullanıcı Adı</label><input type="text" id="loginUser" placeholder="Örn. board" required autocomplete="username" autocapitalize="off" spellcheck="false"></div>
+        <div class="field"><label for="loginPass" data-i18n="password">Şifre</label><input type="password" id="loginPass" placeholder="Şifreniz" required autocomplete="current-password"></div>
+        <button type="submit" class="btn btn-primary btn-block" id="loginBtn" data-i18n="login_btn">Güvenli oturumu başlat</button>
+        <p id="loginMsg" class="form-msg err hidden" role="alert"></p>
+      </form>
+      <p class="mt-3 small"><button type="button" class="link link-btn" id="forgotToggle" data-i18n="forgot">Şifremi unuttum</button></p>
+      <form id="forgotPanel" class="panel-soft mt-2 hidden" novalidate>
+        <div class="field"><label for="forgotUser">Kullanıcı Adınız</label><input type="text" id="forgotUser" autocomplete="username" autocapitalize="off" spellcheck="false"></div>
+        <button type="submit" class="btn btn-ghost btn-block" data-i18n="send_reset">Sıfırlama Bağlantısı Gönder</button>
+        <p id="forgotMsg" class="form-msg hidden" role="status"></p>
+      </form>
+    </div>
+  </main>
+</div>
+<div id="appView" class="hidden">
+<header class="site-header app-bar" id="appBar">
+  <div class="wrap">
+    <a href="/" class="brand" aria-label="Kulaktan ana sayfa"><img src="/assets/logo-mark-white.png" alt="" width="21" height="34">kulaktan<span class="brand-tag">YK Portalı</span></a>
+    <div class="who hidden" id="headerAuthStatus">
+      
+      <span class="avatar" id="avatar" aria-hidden="true"></span>
+      <span class="who-name" id="sessionName"></span>
+      <button type="button" class="btn btn-ghost btn-sm" id="logoutBtn">Çıkış</button>
+    </div>
+  </div>
+</header>
+<main class="app-main" id="app-main">
+<div class="wrap">
+
+<div class="app-title row between" style="align-items:flex-end">
+  <div>
+    <span class="eyebrow">TRUSTED THIRD PARTY OPERATIONS</span><h1 class="mt-2">Yönetim Kurulu &amp; Denetim Komuta Merkezi</h1>
+    <p class="lede">Uzman mütalaaları, yönetim kurulu karar ve önlem girişleri, komite raporları.</p>
+  </div>
+  <div class="row">
+    <button type="button" class="btn btn-ghost btn-sm" id="refreshBtn">Yenile</button>
+    <button type="button" class="btn btn-primary btn-sm" id="reportBtn">Komite Raporunu İndir</button>
+  </div>
+</div>
+
+<div class="metrics" style="--cols:3">
+  <div><span class="num" id="boardTotalCases">0</span><span class="cap">TOPLAM DOSYA</span></div>
+  <div><span class="num" id="boardPendingCases">0</span><span class="cap">KARAR BEKLEYEN</span></div>
+  <div><span class="num" id="boardClosedCases">0</span><span class="cap">KAPATILAN DOSYA</span></div>
+</div>
+
+<section class="panel panel-flat" aria-labelledby="queueTitle">
+  <div class="panel-head"><h2 id="queueTitle">Yönetim Kurulu İncelemesi ve Karar Kuyruğu</h2></div>
+  <div class="table-wrap">
+    <table class="table-stack">
+      <thead><tr><th>Dosya Kodu</th><th>Kategori</th><th>Uzman Mütalaası</th><th>YK Kararı / Önlem</th><th>Durum</th><th>İşlem</th></tr></thead>
+      <tbody id="boardTableBody"></tbody>
+    </table>
+  </div>
+</section>
+
+<div class="note mt-4"><p><strong>Yasal Çerçeve Notu</strong> Bu platform, TTK m. 369 (yönetim kurulunun özen ve bağlılık yükümlülüğü) ve m. 378 (riskin erken teşhisi komitesi) kapsamındaki süreçlerin belgelenmesine ve izlenebilirliğine katkı sağlamak üzere tasarlanmıştır. Burada üretilen kayıtlar bir hukuki danışmanlık veya güvence beyanı yerine geçmez — nihai değerlendirme için bağımsız hukuk danışmanınıza başvurunuz.</p></div>
+
+</div>
+</main>
+</div>
+<div id="boardDrawer" class="overlay overlay-right" role="dialog" aria-modal="true" aria-label="Karar formu" aria-hidden="true">
+  <div class="drawer" id="boardDrawerBody"></div>
+</div>
+<script src="/assets/kulaktan.js"></script>
+<script src="/assets/pages/board.js"></script>
+</body>
+</html>
